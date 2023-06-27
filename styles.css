@@ -1,0 +1,29 @@
+:root {
+    --color1: rgb(28, 28, 73);
+    --color2: rgb(212, 200, 200);
+}
+
+body {
+    display: grid;
+    justify-content: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+main {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: fit-content;
+    gap: 3px;
+    /* background-color: var(--color1); */
+}
+
+main > div {
+    /* border: 3px solid black; */
+    height: 100px;
+    width: 100px;
+    background-color: var(--color2);
+    border-radius: 5px;
+}

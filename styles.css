@@ -1,3 +1,7 @@
+body {
+    font-family: 'Varela Round', sans-serif;
+}
+
 :root {
     --color1: rgb(28, 28, 73);
     --color2: rgb(212, 200, 200);
@@ -26,4 +30,9 @@ main > div {
     width: 100px;
     background-color: var(--color2);
     border-radius: 5px;
+    padding: 10px;
+    font-size: 6rem;
+    display: grid;
+    justify-content: center;
+    align-content: center;
 }

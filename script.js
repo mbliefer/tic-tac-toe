@@ -1,49 +1,32 @@
 const gameboard = (() => {
     const squares = document.querySelectorAll(".square");
     const squareArr = Array.from(squares);
-    let playerPicker;
 
-    const addLetterToBoard = (e, letter) => {
+    const addLetterToBoard = (e) => {
+        let letter = game.switchPlayer().playerPicker.getLetter();
         e.target.textContent = letter;
         console.log("addlettertoboard");
     }
 
-    // const clickTest = 
+    squares.forEach((square) => {
+        square.addEventListener('click', (e) => {
+            addLetterToBoard(e);
+            console.log(game.counter);
+        })
+    })
 
-    const clickSquares = (letter) => {
-        squares.forEach((square) => {
-            square.addEventListener('click', (e) => {
-                addLetterToBoard(e, letter);
-                console.log("clicksquare");
-            })
-        });
+    return {
+        addLetterToBoard
     };
-
-    const click = () => {
-        squares.forEach((square) => {
-            square.addEventListener('click', (e) => {
-                game.switchPlayer();
-                console.log("click");
-            });
-        });
-    }
-
-    return {clickSquares,
-        click
-        };
 
 })();
 
 const Player = (name, letter) => {
     const getName = () => name;
-    const pickSquare = () => {
-        gameboard.clickSquares(letter);
-        console.log("hi");
-    };
-
+    const getLetter = () => letter;
     return {
-        pickSquare,
-        getName
+        getName,
+        getLetter
     };
 };
 
@@ -51,19 +34,23 @@ const game = (() => {
     const playerX = Player("PlayerX", "X");
     const playerO = Player("PlayerO", "O");
 
-    let playerPicker = playerX;
+    let playerPicker = playerO;
+    let counter = 0;
 
-    function switchPlayer() {
+    const switchPlayer = () => {
         console.log(playerPicker.getName())
         playerPicker = (playerPicker === playerX) ? playerO : playerX;
         console.log(playerPicker.getName());
-        playerPicker.pickSquare();
+        return {
+            playerPicker,
+        };
     };
 
-    gameboard.click();
-    playerPicker.pickSquare();
 
-
-    return {playerPicker, playerO, switchPlayer}
+    return { 
+        playerPicker, 
+        switchPlayer,
+        counter}
 
 })();
+

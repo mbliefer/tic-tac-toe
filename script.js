@@ -3,15 +3,16 @@ const gameboard = (() => {
     const squareArr = Array.from(squares);
 
     const addLetterToBoard = (e) => {
-        let letter = game.switchPlayer().playerPicker.getLetter();
+        let letter = game.switchPlayer().playerTurn.getLetter();
+        // let letter = game.playerTurn.getLetter();
         e.target.textContent = letter;
         console.log("addlettertoboard");
+        // game.switchPlayer();
     }
 
     squares.forEach((square) => {
         square.addEventListener('click', (e) => {
             addLetterToBoard(e);
-            console.log(game.counter);
         })
     })
 
@@ -33,24 +34,26 @@ const Player = (name, letter) => {
 const game = (() => {
     const playerX = Player("PlayerX", "X");
     const playerO = Player("PlayerO", "O");
-
-    let playerPicker = playerO;
-    let counter = 0;
+    let playerTurn = playerO;
 
     const switchPlayer = () => {
-        console.log(playerPicker.getName())
-        playerPicker = (playerPicker === playerX) ? playerO : playerX;
-        console.log(playerPicker.getName());
+        console.log(playerTurn.getName())
+        playerTurn = (playerTurn === playerX) ? playerO : playerX;
+        console.log(playerTurn.getName());
         return {
-            playerPicker,
+            playerTurn,
         };
     };
 
+    // function switchPlayer() {
+    //     this.playerTurn === playerO ? this.playerTurn = playerX : this.playerTurn = playerO;
+    //     playerTurn = (playerTurn === playerX) ? playerO : playerX;
+    // };
 
-    return { 
-        playerPicker, 
+    return {
+        playerTurn,
         switchPlayer,
-        counter}
+    }
 
 })();
 

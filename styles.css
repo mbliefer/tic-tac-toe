@@ -12,11 +12,11 @@ body {
     justify-content: center;
 }
 
-h1 {
+h1, h2 {
     text-align: center;
 }
 
-main {
+#board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     width: fit-content;
@@ -24,7 +24,7 @@ main {
     /* background-color: var(--color1); */
 }
 
-main > div {
+#board > div {
     /* border: 3px solid black; */
     height: 100px;
     width: 100px;

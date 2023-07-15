@@ -37,6 +37,7 @@ const game = (() => {
     let playerTurn = playerO;
 
     const switchPlayer = () => {
+        displayPlayerTurn(playerTurn);
         console.log(playerTurn.getName())
         playerTurn = (playerTurn === playerX) ? playerO : playerX;
         console.log(playerTurn.getName());
@@ -50,8 +51,14 @@ const game = (() => {
     //     playerTurn = (playerTurn === playerX) ? playerO : playerX;
     // };
 
+
+    const displayPlayerTurn = (player) => {
+        const displayTurn = document.querySelector('.displayTurn');
+        const h2 = document.querySelector('.displayTurnText');
+        h2.textContent = `${player.getName()} it is your turn`
+    };
+
     return {
-        playerTurn,
         switchPlayer,
     }
 

@@ -1,6 +1,7 @@
 const gameboard = (() => {
     const squares = document.querySelectorAll(".square");
     const squareArr = Array.from(squares);
+    let winner = null;
 
     const addLetterToBoard = (e) => {
         let letter = game.switchPlayer().playerTurn.getLetter();
@@ -10,6 +11,29 @@ const gameboard = (() => {
         // game.switchPlayer();
     }
 
+    const checkWinner = () => {
+        winArrs = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+
+        winArrs.forEach((combo) => {
+            if (squareArr[combo[0]]
+                && squareArr[combo[0]] === squareArr[combo[1]]
+                && squareArr[combo[0]] === squareArr[combo[2]]) {
+                winner = 'current';
+            }
+        });
+        return winner || (squareArr.includes('') ? null : 'Tie');
+
+    };
+
     squares.forEach((square) => {
         square.addEventListener('click', (e) => {
             addLetterToBoard(e);
@@ -17,7 +41,8 @@ const gameboard = (() => {
     })
 
     return {
-        addLetterToBoard
+        addLetterToBoard,
+        squareArr
     };
 
 })();
@@ -50,7 +75,6 @@ const game = (() => {
     //     this.playerTurn === playerO ? this.playerTurn = playerX : this.playerTurn = playerO;
     //     playerTurn = (playerTurn === playerX) ? playerO : playerX;
     // };
-
 
     const displayPlayerTurn = (player) => {
         const displayTurn = document.querySelector('.displayTurn');

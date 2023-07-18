@@ -34,15 +34,16 @@ const gameboard = (() => {
 
     };
 
-    squares.forEach((square) => {
-        square.addEventListener('click', (e) => {
-            addLetterToBoard(e);
-        })
-    })
+    // squares.forEach((square) => {
+    //     square.addEventListener('click', (e) => {
+    //         addLetterToBoard(e);
+    //     })
+    // })
 
     return {
         addLetterToBoard,
-        squareArr
+        checkWinner,
+        squares
     };
 
 })();
@@ -81,6 +82,12 @@ const game = (() => {
         const h2 = document.querySelector('.displayTurnText');
         h2.textContent = `${player.getName()} it is your turn`
     };
+
+    gameboard.squares.forEach((square) => {
+        square.addEventListener('click', (e) => {
+            gameboard.addLetterToBoard(e);
+        })
+    })
 
     return {
         switchPlayer,

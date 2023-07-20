@@ -34,12 +34,6 @@ const gameboard = (() => {
 
     };
 
-    // squares.forEach((square) => {
-    //     square.addEventListener('click', (e) => {
-    //         addLetterToBoard(e);
-    //     })
-    // })
-
     return {
         addLetterToBoard,
         checkWinner,

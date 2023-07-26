@@ -1,6 +1,7 @@
 const gameboard = (() => {
     const squares = document.querySelectorAll(".square");
     const squareArr = Array.from(squares);
+
     let winner = null;
 
     const addLetterToBoard = (e) => {
@@ -23,21 +24,29 @@ const gameboard = (() => {
             [2, 4, 6],
         ];
 
+        const squareArrText = squareArr.map(function(square) {
+            return square.textContent;
+        });
+    
+        console.log(squareArrText);
+
         winArrs.forEach((combo) => {
-            if (squareArr[combo[0]]
-                && squareArr[combo[0]] === squareArr[combo[1]]
-                && squareArr[combo[0]] === squareArr[combo[2]]) {
+            if (squareArrText[combo[0]]
+                && squareArrText[combo[0]] === squareArrText[combo[1]]
+                && squareArrText[combo[0]] === squareArrText[combo[2]]) {
                 winner = 'current';
+                console.log('winner');
             }
         });
-        return winner || (squareArr.includes('') ? null : 'Tie');
+        return winner || (squareArrText.includes('') ? null : 'Tie');
 
     };
 
     return {
         addLetterToBoard,
         checkWinner,
-        squares
+        squares, 
+        squareArr
     };
 
 })();
@@ -77,6 +86,21 @@ const game = (() => {
         h2.textContent = `${player.getName()} it is your turn`
     };
 
+    const round = () => {
+        const board = document.querySelector("#board");
+        gameboard.checkWinner();
+
+        console.log("hi");
+        const evaluateBoard = () => {
+            if (gameboard.checkWinner() == null) {
+                console.log("null");
+            }
+            else console.log("hmm");
+        }
+        
+        board.addEventListener('click', evaluateBoard);
+    };
+
     gameboard.squares.forEach((square) => {
         square.addEventListener('click', (e) => {
             gameboard.addLetterToBoard(e);
@@ -85,7 +109,10 @@ const game = (() => {
 
     return {
         switchPlayer,
+        round
     }
 
 })();
+
+game.round();
 

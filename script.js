@@ -5,10 +5,13 @@ const gameboard = (() => {
     let winner = null;
 
     const addLetterToBoard = (e) => {
+        if (e.target.textContent !== "") {
+            console.log("nope");
+            return;
+        }
         let letter = game.switchPlayer().playerTurn.getLetter();
         // let letter = game.playerTurn.getLetter();
         e.target.textContent = letter;
-        console.log("addlettertoboard");
         // game.switchPlayer();
     }
 
@@ -24,10 +27,10 @@ const gameboard = (() => {
             [2, 4, 6],
         ];
 
-        const squareArrText = squareArr.map(function(square) {
+        const squareArrText = squareArr.map(function (square) {
             return square.textContent;
         });
-    
+
         console.log(squareArrText);
 
         winArrs.forEach((combo) => {
@@ -35,7 +38,9 @@ const gameboard = (() => {
                 && squareArrText[combo[0]] === squareArrText[combo[1]]
                 && squareArrText[combo[0]] === squareArrText[combo[2]]) {
                 winner = 'current';
-                console.log('winner');
+                combo.map(function (square) {
+                    squareArr[square].style.backgroundColor = "red";
+                })
             }
         });
         return winner || (squareArrText.includes('') ? null : 'Tie');
@@ -45,7 +50,7 @@ const gameboard = (() => {
     return {
         addLetterToBoard,
         checkWinner,
-        squares, 
+        squares,
         squareArr
     };
 
@@ -64,12 +69,11 @@ const game = (() => {
     const playerX = Player("PlayerX", "X");
     const playerO = Player("PlayerO", "O");
     let playerTurn = playerO;
+    let isThereAWinner = false;
 
     const switchPlayer = () => {
         displayPlayerTurn(playerTurn);
-        console.log(playerTurn.getName())
         playerTurn = (playerTurn === playerX) ? playerO : playerX;
-        console.log(playerTurn.getName());
         return {
             playerTurn,
         };
@@ -81,7 +85,7 @@ const game = (() => {
     // };
 
     const displayPlayerTurn = (player) => {
-        const displayTurn = document.querySelector('.displayTurn');
+        // const displayTurn = document.querySelector('.displayTurn');
         const h2 = document.querySelector('.displayTurnText');
         h2.textContent = `${player.getName()} it is your turn`
     };
@@ -90,19 +94,25 @@ const game = (() => {
         const board = document.querySelector("#board");
         gameboard.checkWinner();
 
-        console.log("hi");
         const evaluateBoard = () => {
-            if (gameboard.checkWinner() == null) {
-                console.log("null");
+            const h2 = document.querySelector('.displayTurnText');
+            if (gameboard.checkWinner() === 'Tie') {
+                h2.textContent = "Tie";
             }
-            else console.log("hmm");
+            if (gameboard.checkWinner() === 'current') {
+                console.log('current');
+                console.log(playerTurn);
+                isThereAWinner = true;
+                h2.textContent = `${playerTurn.getName()} is the winner!`;
+            };
         }
-        
+
         board.addEventListener('click', evaluateBoard);
     };
 
     gameboard.squares.forEach((square) => {
         square.addEventListener('click', (e) => {
+            if (isThereAWinner === true) return;
             gameboard.addLetterToBoard(e);
         })
     })
@@ -111,7 +121,6 @@ const game = (() => {
         switchPlayer,
         round
     }
-
 })();
 
 game.round();

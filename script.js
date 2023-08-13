@@ -10,9 +10,7 @@ const gameboard = (() => {
             return;
         }
         let letter = game.switchPlayer().playerTurn.getLetter();
-        // let letter = game.playerTurn.getLetter();
         e.target.textContent = letter;
-        // game.switchPlayer();
     }
 
     const checkWinner = () => {
@@ -44,14 +42,22 @@ const gameboard = (() => {
             }
         });
         return winner || (squareArrText.includes('') ? null : 'Tie');
-
     };
+
+    const resetBoard = () => {
+        const squareArrText = squareArr.map(function (square) {
+            location.reload();
+        });
+    }
+
+    const resetButton = document.querySelector('.resetButton');
+    resetButton.addEventListener('click', resetBoard);
 
     return {
         addLetterToBoard,
         checkWinner,
         squares,
-        squareArr
+        // squareArr
     };
 
 })();
@@ -79,13 +85,7 @@ const game = (() => {
         };
     };
 
-    // function switchPlayer() {
-    //     this.playerTurn === playerO ? this.playerTurn = playerX : this.playerTurn = playerO;
-    //     playerTurn = (playerTurn === playerX) ? playerO : playerX;
-    // };
-
     const displayPlayerTurn = (player) => {
-        // const displayTurn = document.querySelector('.displayTurn');
         const h2 = document.querySelector('.displayTurnText');
         h2.textContent = `${player.getName()} it is your turn`
     };

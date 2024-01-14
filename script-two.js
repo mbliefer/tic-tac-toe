@@ -15,6 +15,8 @@ const gameboard = (() => {
         board[index] = gameplay.getPlayerTurnSymbol();
 
         gameplay.pickSquare(e);
+        if (checkWinner() !== null) return
+        console.log(winner);
         gameplay.displayPlayerTurn();
     }
 
@@ -35,18 +37,22 @@ const gameboard = (() => {
             if (board[combo[0]]
                 && board[combo[0]] === board[combo[1]]
                 && board[combo[0]] === board[combo[2]]) {
-                    console.log('winner');
                     winner = gameplay.getPlayerTurnName();
-                    console.log(winner + " wins");
+                    combo.map((square) => {
+                        board[square].style.backgroundColor = "red";
+                    });
+    
                 }
         });
 
-        return winner || (board.length < 9 ? null : 'Tie');
+        let boardText = board.map((index) => index);
+        return winner || ((board.length === 9 && !boardText.includes(undefined)) ? 'tie' : null);
     };
 
     // reset
     const resetBoard = () => {
         board = [];
+        winner = null;
         squares.forEach((square) => {
             square.textContent = "";
         });
@@ -59,7 +65,7 @@ const gameboard = (() => {
 
     return {
         resetBoard,
-        checkWinner
+        checkWinner,
     }
 
 })();
@@ -84,7 +90,6 @@ const gameplay = (() => {
     const playerTurnText = document.querySelector('.displayTurnText')
     const reset = document.querySelector('.resetButton')
 
-
     const switchPlayerTurn = (player) => {
         playerTurn = (playerTurn === playerX) ? playerO : playerX;
     }
@@ -96,14 +101,16 @@ const gameplay = (() => {
 
     const pickSquare = (e) => {
         e.target.textContent = getPlayerTurnSymbol();
-        gameboard.checkWinner();
+        evaluateBoard();
         switchPlayerTurn(playerTurn);
-        showWinner();
     }
 
-    const showWinner = () => {
-        if (gameboard.checkWinner() !== null) {
-            playerTurnText.textContent = 'tie';
+    const evaluateBoard = () => {
+        if (gameboard.checkWinner() === 'tie') {
+            playerTurnText.textContent = 'Scratch';
+        }
+        else if (gameboard.checkWinner() !== 'tie' || gameboard.checkWinner() !== null) {
+            playerTurnText.textContent = gameboard.checkWinner() + " Wins!";
         }
     }
 
@@ -117,7 +124,6 @@ const gameplay = (() => {
         gameboard.resetBoard();
         resetPlayerTurnToX();
     } );
-
 
     return {
         pickSquare,

@@ -4,21 +4,30 @@ const gameboard = (() => {
 
     let winner = null;
 
-
     // create Array for gameboard
     let board = [];
 
     const placeSymbol = (e) => {
-        if (e.target.textContent !== '') return
+        if (e.target.textContent !== '' || winner) return
 
         let index = e.target.dataset.position;
         board[index] = gameplay.getPlayerTurnSymbol();
 
         gameplay.pickSquare(e);
+
         if (checkWinner() !== null) return
-        console.log(winner);
         gameplay.displayPlayerTurn();
-    }
+    };
+
+    const changeBGColor = (combo) => {
+        for (let i = 0; i < combo.length; i++) {
+            squares.forEach((square) => {
+                if (combo[i] == square.dataset.position) {
+                    square.style.backgroundColor = 'red';
+                }
+            })
+        };
+    };
 
     // evaluate board, check for winner
     const checkWinner = () => {
@@ -37,12 +46,9 @@ const gameboard = (() => {
             if (board[combo[0]]
                 && board[combo[0]] === board[combo[1]]
                 && board[combo[0]] === board[combo[2]]) {
-                    winner = gameplay.getPlayerTurnName();
-                    combo.map((square) => {
-                        board[square].style.backgroundColor = "red";
-                    });
-    
-                }
+                winner = gameplay.getPlayerTurnName();
+                changeBGColor(combo);
+            }
         });
 
         let boardText = board.map((index) => index);
@@ -54,6 +60,7 @@ const gameboard = (() => {
         board = [];
         winner = null;
         squares.forEach((square) => {
+            square.style.backgroundColor = "rgb(" + 212 + "," + 200 + "," + 200 + ")";
             square.textContent = "";
         });
     };
@@ -123,7 +130,7 @@ const gameplay = (() => {
     reset.addEventListener('click', () => {
         gameboard.resetBoard();
         resetPlayerTurnToX();
-    } );
+    });
 
     return {
         pickSquare,
